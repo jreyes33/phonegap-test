@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>ActualízaMe Ecuador</title>
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="css/actualizame-ec.min.css" />
+  <link rel="stylesheet" href="css/jquery.mobile.structure-1.2.0-alpha.1.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="js/libs/jquery-1.7.2.min.js"></script>
+  <script src="js/libs/cordova-2.0.0.js"></script>
+  <script src="js/script.js"></script>
+  <script src="js/libs/jquery.mobile-1.2.0-alpha.1.min.js"></script>
+</head>
+<body>  
+  <div data-role="page" data-theme="a" id="home">
+    <div data-role="header" data-position="fixed" data-id="global-header">
+      <a href="#home" data-icon="home" data-iconpos="notext">Home</a>
+      <h1>ActualízaMe Ecuador</h1>
+    </div>
+    <div data-role="content">
+      <p>Esta es la pagina de inicio. Contendra la navegacion principal del sitio... Tal vez la borre.</p>
+    </div>
+    <div data-role="footer" data-position="fixed" data-id="global-footer">
+      <div data-role="navbar" data-iconpos="top">
+        <ul>
+          <li><a href="#contacts" data-icon="grid">Contactos</a></li>
+          <li><a href="#backups" data-icon="back">Respaldos</a></li>
+          <li><a href="#help" data-icon="info">Ayuda</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div data-role="page" data-theme="a" id="contacts">
+    <div data-role="header" data-position="fixed" data-id="global-header">
+      <a href="#home" data-icon="home" data-iconpos="notext">Home</a>
+      <h1>ActualízaMe Ecuador</h1>
+    </div>
+    <div data-role="content">
+      <p>Esta es la pag. de contactos. Desde aqui, el usuario podra actualizar sus contactos.</p>
+    </div>
+    <div data-role="footer" data-position="fixed" data-id="global-footer">
+      <div data-role="navbar" data-iconpos="top">
+        <ul>
+          <li><a href="#contacts" class="ui-btn-active ui-state-persist" data-icon="grid">Contactos</a></li>
+          <li><a href="#backups" data-icon="back">Respaldos</a></li>
+          <li><a href="#help" data-icon="info">Ayuda</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div data-role="page" data-theme="a" id="backups">
+    <div data-role="header" data-position="fixed" data-id="global-header">
+      <a href="#home" data-icon="home" data-iconpos="notext">Home</a>
+      <h1>ActualízaMe Ecuador</h1>
+    </div>
+    <div data-role="content">
+      <p>Esta es la pagina de respaldos. Desde aqui, se podra restaurar los contactos a un estado previo.</p>
+    </div>
+    <div data-role="footer" data-position="fixed" data-id="global-footer">
+      <div data-role="navbar" data-iconpos="top">
+        <ul>
+          <li><a href="#contacts" data-icon="grid">Contactos</a></li>
+          <li><a href="#backups" class="ui-btn-active ui-state-persist" data-icon="back">Respaldos</a></li>
+          <li><a href="#help" data-icon="info">Ayuda</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div data-role="page" data-theme="a" id="help">
+    <div data-role="header" data-position="fixed" data-id="global-header">
+      <a href="#home" data-icon="home" data-iconpos="notext">Home</a>
+      <h1>ActualízaMe Ecuador</h1>
+    </div>
+    <div data-role="content">
+      <p>Aqui ira texto de ayuda...</p>
+    </div>
+    <div data-role="footer" data-position="fixed" data-id="global-footer">
+      <div data-role="navbar" data-iconpos="top">
+        <ul>
+          <li><a href="#contacts" data-icon="grid">Contactos</a></li>
+          <li><a href="#backups" data-icon="back">Respaldos</a></li>
+          <li><a href="#help" class="ui-btn-active ui-state-persist" data-icon="info">Ayuda</a></li>
+        </ul>
+      </div>
+    </div>  
+  </div>
+</body>
+</html>
