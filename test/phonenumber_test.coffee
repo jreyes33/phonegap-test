@@ -74,13 +74,31 @@ describe 'PhoneNumber', ->
 
 
   describe '#isEcuadorian', ->
-    it 'returns true when the number is ecuadorian'
+    phonenumber = null
+    beforeEach ->
+      phonenumber = new PhoneNumber
 
-    it 'returns false when the number is not ecuadorian'
+    it 'returns true when the number is ecuadorian', ->
+      phonenumber.value = '+(593)99123456'
+      phonenumber.isEcuadorian().should.equal true
+      phonenumber.value = '09.912.3456'
+      phonenumber.isEcuadorian().should.equal true
+
+    it 'returns false when the number is not ecuadorian', ->
+      phonenumber.value = '+1(456)912-3456'
+      phonenumber.isEcuadorian().should.equal false
 
 
   describe '#hasValidLength', ->
-    it 'returns true when the number\'s length is valid'
+    phonenumber = null
+    beforeEach ->
+      phonenumber = new PhoneNumber
+
+    it 'returns true when the number\'s length is valid', ->
+      phonenumber.value = '+(593)99123456'
+      phonenumber.isEcuadorian().should.equal true
+      phonenumber.value = '08.912.3456'
+      phonenumber.isEcuadorian().should.equal true
 
     it 'returns false when the number\'s length is not valid'
 
