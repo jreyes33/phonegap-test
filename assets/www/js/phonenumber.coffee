@@ -25,7 +25,6 @@ class PhoneNumber
 
   isUpdatableEcuadorianMobile: ->
     if @value?
-      @cleanValue = @removeDelimiters()
       if @hasValidChars() and @isEcuadorian() and @hasValidLength()
         if @cleanValue.match(/^(\+593|0)(\d)/)[2] in ['8', '9']
           return 'yes'
@@ -36,6 +35,17 @@ class PhoneNumber
     else
       return 'no'
 
+  updateEcuadorianMobile: (forceMaybe) ->
+    if @value?
+      switch @isUpdatableEcuadorianMobile()
+        when 'yes'
+          return @updatedValue = @cleanValue.replace(/^(\+593|0)(\d)/, '$19$2')
+        when 'maybe'
+          return @updatedValue = if forceMaybe then @cleanValue.replace(/^(\+593|0)(\d)/, '$19$2') else @value
+        when 'no'
+          return @updatedValue = @value
+    else
+      return null
 
 root = exports ? window
 root.PhoneNumber = PhoneNumber

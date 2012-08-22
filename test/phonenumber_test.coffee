@@ -137,6 +137,35 @@ describe 'PhoneNumber', ->
 
 
   describe '#updateEcuadorianMobile', ->
-    it 'updates a number if it is a valid ecuadorian mobile'
+    phonenumber = null
+    beforeEach ->
+      phonenumber = new PhoneNumber
 
-    it 'does not update a number if it is not a valid ecuadorian mobile'
+    it 'updates a number if it is a valid ecuadorian mobile', ->
+      phonenumber.value = '+(593)99123456'
+      phonenumber.updateEcuadorianMobile().should.equal '+593999123456'
+      phonenumber.value = '089-123-456'
+      phonenumber.updateEcuadorianMobile().should.equal '0989123456'
+
+    it 'does not update a number that could be a valid ecuadorian mobile if it is not called with the parameter true', ->
+      phonenumber.value = '+593 5 123 4567'
+      phonenumber.updateEcuadorianMobile().should.equal '+593 5 123 4567'
+      phonenumber.value = '051-234-567'
+      phonenumber.updateEcuadorianMobile().should.equal '051-234-567'
+
+    it 'only updates a number that could be a valid ecuadorian mobile if it is called with the parameter true', ->
+      phonenumber.value = '+593 5 123 4567'
+      phonenumber.updateEcuadorianMobile(true).should.equal '+593951234567'
+      phonenumber.value = '051-234-567'
+      phonenumber.updateEcuadorianMobile(true).should.equal '0951234567'
+
+    it 'does not update a number if it is not a valid ecuadorian mobile', ->
+      should.not.exist phonenumber.updateEcuadorianMobile()
+      phonenumber.value = '+1(456)912-3456'
+      phonenumber.updateEcuadorianMobile().should.equal '+1(456)912-3456'
+      phonenumber.value = '*001'
+      phonenumber.updateEcuadorianMobile().should.equal '*001'
+      phonenumber.value = '+(593)991234567'
+      phonenumber.updateEcuadorianMobile().should.equal '+(593)991234567'
+      phonenumber.value = '08.912.34567'
+      phonenumber.updateEcuadorianMobile().should.equal '08.912.34567'
