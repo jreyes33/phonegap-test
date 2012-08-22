@@ -23,6 +23,19 @@ class PhoneNumber
     else
       return false
 
+  isUpdatableEcuadorianMobile: ->
+    if @value?
+      @cleanValue = @removeDelimiters()
+      if @hasValidChars() and @isEcuadorian() and @hasValidLength()
+        if @cleanValue.match(/^(\+593|0)(\d)/)[2] in ['8', '9']
+          return 'yes'
+        else
+          return 'maybe'
+      else
+        return 'no'
+    else
+      return 'no'
+
 
 root = exports ? window
 root.PhoneNumber = PhoneNumber

@@ -104,11 +104,36 @@ describe 'PhoneNumber', ->
 
 
   describe '#isUpdatableEcuadorianMobile', ->
-    it 'returns "yes" when the number is certainly an ecuadorian mobile that needs to be updated'
+    phonenumber = null
+    beforeEach ->
+      phonenumber = new PhoneNumber
 
-    it 'returns "maybe" when the number could be an ecuadorian mobile that needs to be updated'
+    it 'returns "yes" when it is certainly an ecuadorian mobile that needs to be updated', ->
+      phonenumber.value = '+(593)99123456'
+      phonenumber.isUpdatableEcuadorianMobile().should.equal 'yes'
+      phonenumber.value = '+593 8 912 3456'
+      phonenumber.isUpdatableEcuadorianMobile().should.equal 'yes'
+      phonenumber.value = '099-123-456'
+      phonenumber.isUpdatableEcuadorianMobile().should.equal 'yes'
+      phonenumber.value = '08.912.3456'
+      phonenumber.isUpdatableEcuadorianMobile().should.equal 'yes'
 
-    it 'returns "no" when the number is certainly not an ecuadorian mobile that needs to be updated'
+    it 'returns "maybe" when it could be an ecuadorian mobile that needs to be updated', ->
+      phonenumber.value = '+593 5 123 4567'
+      phonenumber.isUpdatableEcuadorianMobile().should.equal 'maybe'
+      phonenumber.value = '051-234-567'
+      phonenumber.isUpdatableEcuadorianMobile().should.equal 'maybe'
+
+    it 'returns "no" when it is certainly not an ecuadorian mobile that needs to be updated', ->
+      phonenumber.isUpdatableEcuadorianMobile().should.equal 'no'
+      phonenumber.value = '+1(456)912-3456'
+      phonenumber.isUpdatableEcuadorianMobile().should.equal 'no'
+      phonenumber.value = '*001'
+      phonenumber.isUpdatableEcuadorianMobile().should.equal 'no'
+      phonenumber.value = '+(593)991234567'
+      phonenumber.isUpdatableEcuadorianMobile().should.equal 'no'
+      phonenumber.value = '08.912.34567'
+      phonenumber.isUpdatableEcuadorianMobile().should.equal 'no'
 
 
   describe '#updateEcuadorianMobile', ->
