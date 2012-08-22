@@ -60,17 +60,13 @@ describe 'PhoneNumber', ->
   describe '#removeDelimiters', ->
     it 'removes delimiters from numbers with them', ->
       phonenumber = new PhoneNumber '+59399123456'
-      phonenumber.removeDelimiters()
-      phonenumber.cleanValue.should.equal '+59399123456'
+      phonenumber.removeDelimiters().should.equal '+59399123456'
       phonenumber.value = '+593(9)9123456'
-      phonenumber.removeDelimiters()
-      phonenumber.cleanValue.should.equal '+59399123456'
+      phonenumber.removeDelimiters().should.equal '+59399123456'
       phonenumber.value = '099-123-456'
-      phonenumber.removeDelimiters()
-      phonenumber.cleanValue.should.equal '099123456'
+      phonenumber.removeDelimiters().should.equal '099123456'
       phonenumber.value = '09.912.3456'
-      phonenumber.removeDelimiters()
-      phonenumber.cleanValue.should.equal '099123456'
+      phonenumber.removeDelimiters().should.equal '099123456'
 
 
   describe '#isEcuadorian', ->
@@ -96,11 +92,15 @@ describe 'PhoneNumber', ->
 
     it 'returns true when the number\'s length is valid', ->
       phonenumber.value = '+(593)99123456'
-      phonenumber.isEcuadorian().should.equal true
+      phonenumber.hasValidLength().should.equal true
       phonenumber.value = '08.912.3456'
-      phonenumber.isEcuadorian().should.equal true
+      phonenumber.hasValidLength().should.equal true
 
-    it 'returns false when the number\'s length is not valid'
+    it 'returns false when the number\'s length is not valid', ->
+      phonenumber.value = '+(593)991234567'
+      phonenumber.hasValidLength().should.equal false
+      phonenumber.value = '08.912.34567'
+      phonenumber.hasValidLength().should.equal false
 
 
   describe '#isUpdatableEcuadorianMobile', ->
