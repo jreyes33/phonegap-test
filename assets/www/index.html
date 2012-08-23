@@ -10,19 +10,20 @@
   <script src="js/libs/jquery-1.7.2.min.js"></script>
   <script src="js/libs/cordova-2.0.0.js"></script>
   <script src="js/libs/jquery.tinysort.min.js"></script>
+  <script src="js/phonenumber.js"></script>
   <script src="js/script.js"></script>
   <script src="js/libs/jquery.mobile-1.2.0-alpha.1.min.js"></script>
 </head>
 <body>
   <div data-role="page" data-theme="a" id="home">
-    <div data-role="header" data-position="fixed" data-id="global-header">
+    <div data-role="header" data-id="global-header">
       <a href="#home" data-icon="home" data-iconpos="notext">Home</a>
       <h1>ActualízaMe</h1>
     </div>
     <div data-role="content">
       <p>Esta es la pagina de inicio. Contendra la navegacion principal del sitio... Tal vez la borre.</p>
     </div>
-    <div data-role="footer" data-position="fixed" data-id="global-footer">
+    <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-id="global-footer">
       <div data-role="navbar" data-iconpos="top">
         <ul>
           <li><a href="#contacts" data-icon="grid">Contactos</a></li>
@@ -33,14 +34,22 @@
     </div>
   </div>
   <div data-role="page" data-theme="a" id="contacts">
-    <div data-role="header" data-position="fixed" data-id="global-header">
+    <div data-role="header" data-id="global-header">
       <a href="#home" data-icon="home" data-iconpos="notext">Home</a>
       <h1>ActualízaMe</h1>
     </div>
-    <div data-role="content">
-      <p>Imagine this is a scroller. It'll be removed once the contacts are loaded.</p>
+    <div data-role="content" id="contacts-content">
+      <p id="count-info"></p>
+      <div data-role="fieldcontain">
+        <fieldset id ="show-filter-fieldset" data-role="controlgroup" data-type="horizontal" data-mini="true">
+          <label><input type="radio" name="show-filter" value="all" data-theme="b" checked>Todos</label>
+          <label><input type="radio" name="show-filter" value="only-checked" data-theme="b">Selecc.</label>
+          <label><input type="radio" name="show-filter" value="only-unchecked" data-theme="b">No Selecc.</label>
+        </fieldset>
+      </div>
+      <ul id="valid-contacts" data-role="listview" data-filter="true" data-filter-theme="b" data-autodividers="true" data-divider-theme="a"></ul>
     </div>
-    <div data-role="footer" data-position="fixed" data-id="global-footer">
+    <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-id="global-footer">
       <div data-role="navbar" data-iconpos="top">
         <ul>
           <li><a href="#contacts" class="ui-btn-active ui-state-persist" data-icon="grid">Contactos</a></li>
@@ -51,14 +60,14 @@
     </div>
   </div>
   <div data-role="page" data-theme="a" id="backups">
-    <div data-role="header" data-position="fixed" data-id="global-header">
+    <div data-role="header" data-id="global-header">
       <a href="#home" data-icon="home" data-iconpos="notext">Home</a>
       <h1>ActualízaMe</h1>
     </div>
     <div data-role="content">
       <p>Esta es la pagina de respaldos. Desde aqui, se podra restaurar los contactos a un estado previo.</p>
     </div>
-    <div data-role="footer" data-position="fixed" data-id="global-footer">
+    <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-id="global-footer">
       <div data-role="navbar" data-iconpos="top">
         <ul>
           <li><a href="#contacts" data-icon="grid">Contactos</a></li>
@@ -69,14 +78,14 @@
     </div>
   </div>
   <div data-role="page" data-theme="a" id="help">
-    <div data-role="header" data-position="fixed" data-id="global-header">
+    <div data-role="header" data-id="global-header">
       <a href="#home" data-icon="home" data-iconpos="notext">Home</a>
       <h1>ActualízaMe</h1>
     </div>
     <div data-role="content">
       <p>Aqui ira texto de ayuda...</p>
     </div>
-    <div data-role="footer" data-position="fixed" data-id="global-footer">
+    <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-id="global-footer">
       <div data-role="navbar" data-iconpos="top">
         <ul>
           <li><a href="#contacts" data-icon="grid">Contactos</a></li>

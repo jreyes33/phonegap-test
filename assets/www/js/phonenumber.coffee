@@ -1,5 +1,6 @@
 class PhoneNumber
   constructor: (@value, @type) ->
+    @value = @value.toString() if typeof @value is 'number'
     @cleanValue = @removeDelimiters() if @value?
 
   hasValidChars: ->
