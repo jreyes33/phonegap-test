@@ -25,11 +25,11 @@ onContactSuccess = (contacts) ->
   $contactsList = $()
 
   if contacts? then for contact in contacts
-    unless contact.name? then continue
+    continue unless contact.name?
     $contact = $("""
       <li>
         <h3>#{contact.name.formatted}</h3>
-        <fieldset data-role="controlgroup" data-mini="true"></fieldset>
+        <fieldset data-mini="true"></fieldset>
       </li>
       """)
 

@@ -1,0 +1,23 @@
+.ui-content {
+  padding: 2px 15px;
+}
+
+#contacts-content .ui-field-contain {
+  margin: 0;
+}
+
+#show-filter-fieldset {
+  background: #d6d6d6;
+  margin: -2px -15px 5px;
+  padding: 5px 5px 7px;
+}
+#show-filter-fieldset > .ui-controlgroup-controls {
+  width: 100%;
+}
+#show-filter-fieldset #count-info {
+  display: block;
+  float: right;
+  height: 16px;
+  line-height: 16px;
+  padding: 0.55em 0 0.5em;
+}

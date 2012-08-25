@@ -39,12 +39,12 @@
       <h1>ActualízaMe</h1>
     </div>
     <div data-role="content" id="contacts-content">
-      <p id="count-info"></p>
       <div data-role="fieldcontain">
         <fieldset id ="show-filter-fieldset" data-role="controlgroup" data-type="horizontal" data-mini="true">
           <label><input type="radio" name="show-filter" value="all" data-theme="b" checked>Todos</label>
           <label><input type="radio" name="show-filter" value="only-checked" data-theme="b">Selecc.</label>
           <label><input type="radio" name="show-filter" value="only-unchecked" data-theme="b">No Selecc.</label>
+          <span id="count-info">0 de 0</span>
         </fieldset>
       </div>
       <ul id="valid-contacts" data-role="listview" data-filter="true" data-filter-theme="b" data-autodividers="true" data-divider-theme="a"></ul>
