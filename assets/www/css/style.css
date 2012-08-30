@@ -1,20 +1,32 @@
-.ui-content {
+.social {
+  line-height: 25px;
+  margin: 25px auto 5px;
+  text-align: center;
+}
+.social .fb-share {
+  margin-right: 20px;
+}
+.social img {
+  height: 30px;
+  width: 30px;
+}
+
+#contacts-content.ui-content {
   padding: 2px 15px;
 }
-
 #contacts-content .ui-field-contain {
   margin: 0;
+  padding: 0;
 }
-
-#show-filter-fieldset {
+#contacts-content #show-filter-fieldset {
   background: #d6d6d6;
   margin: -2px -15px 5px;
   padding: 5px 5px 7px;
 }
-#show-filter-fieldset > .ui-controlgroup-controls {
+#contacts-content #show-filter-fieldset > .ui-controlgroup-controls {
   width: 100%;
 }
-#show-filter-fieldset #count-info {
+#contacts-content #show-filter-fieldset #count-info {
   display: block;
   float: right;
   height: 16px;

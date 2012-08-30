@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <title>ActualízaMe</title>
   <meta name="viewport" content="width=device-width">
-  <link rel="stylesheet" href="css/actualizame-ec.min.css" />
-  <link rel="stylesheet" href="css/jquery.mobile.structure-1.2.0-alpha.1.min.css" />
+  <link rel="stylesheet" href="css/actualizame-ec.css" />
+  <link rel="stylesheet" href="css/jquery.mobile.structure-1.2.0-alpha.1.css" />
   <link rel="stylesheet" href="css/style.css" />
   <script src="js/libs/jquery-1.7.2.min.js"></script>
   <script src="js/libs/cordova-2.0.0.js"></script>
@@ -21,15 +21,26 @@
       <h1>ActualízaMe</h1>
     </div>
     <div data-role="content">
-      <p>Esta es la pagina de inicio. Contendra la navegacion principal del sitio... Tal vez la borre.</p>
-    </div>
-    <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-id="global-footer">
-      <div data-role="navbar" data-iconpos="top">
-        <ul>
-          <li><a href="#contacts" data-icon="grid">Contactos</a></li>
-          <li><a href="#backups" data-icon="back">Respaldos</a></li>
-          <li><a href="#help" data-icon="info">Ayuda</a></li>
-        </ul>
+      <div data-role="listview">
+        <li><a href="#contacts">
+          <h3>Contactos</h3>
+          <p>Actualiza los contactos de tu teléfono para cumplir con el nuevo formato.</p>
+        </a></li>
+        <li><a href="#backups">
+          <h3>Respaldos</h3>
+          <p>Restaura tu lista de contactos a un estado anterior.</p>
+        </a></li>
+        <li><a href="#help">
+          <h3>Ayuda</h3>
+          <p>Obtén ayuda para usar esta aplicación.</p>
+        </a></li>
+      </div>
+      <div class="social">
+        <span>¡Compártelo con tus amigos!</span><br>
+        <a href="https://www.facebook.com/dialog/feed?app_id=234832893306706&link=http://jreyes.org/actualizame-ec&name=Actual%C3%ADzaMe%20Ecuador&description=Actualiza%20f%C3%A1cilmente%20tus%20contactos%20usando%20esta%20aplicaci%C3%B3n&redirect_uri=http://jreyes.org/actualizame-ec"
+          class="fb-share" target="_blank"><img src="img/fb.png" alt="fb"></a>
+        <a href="https://twitter.com/intent/tweet?text=Actualiza%20f%C3%A1cilmente%20tus%20contactos%20usando%20esta%20aplicaci%C3%B3n&url=http://jreyes.org/actualizame-ec&via=actualizameEC"
+          class="tw-share" target="_blank"><img src="img/tw.png" alt="tw"></a>
       </div>
     </div>
   </div>
@@ -47,15 +58,11 @@
           <span id="count-info">0 de 0</span>
         </fieldset>
       </div>
-      <ul id="valid-contacts" data-role="listview" data-filter="true" data-filter-theme="b" data-autodividers="true" data-divider-theme="a"></ul>
+      <ul id="valid-contacts" data-role="listview" data-filter="true" data-filter-theme="b" data-filter-placeholder="Filtrar contactos..." data-divider-theme="a"></ul>
     </div>
-    <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-id="global-footer">
-      <div data-role="navbar" data-iconpos="top">
-        <ul>
-          <li><a href="#contacts" class="ui-btn-active ui-state-persist" data-icon="grid">Contactos</a></li>
-          <li><a href="#backups" data-icon="back">Respaldos</a></li>
-          <li><a href="#help" data-icon="info">Ayuda</a></li>
-        </ul>
+    <div class="footer ui-grid-solo" data-role="footer" data-position="fixed" data-tap-toggle="false" data-theme="b">
+      <div class="ui-block-a">
+        <button id="update-button" class="update-button" data-theme="a">Actualizar contactos</button>
       </div>
     </div>
   </div>
@@ -67,15 +74,6 @@
     <div data-role="content">
       <p>Esta es la pagina de respaldos. Desde aqui, se podra restaurar los contactos a un estado previo.</p>
     </div>
-    <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-id="global-footer">
-      <div data-role="navbar" data-iconpos="top">
-        <ul>
-          <li><a href="#contacts" data-icon="grid">Contactos</a></li>
-          <li><a href="#backups" class="ui-btn-active ui-state-persist" data-icon="back">Respaldos</a></li>
-          <li><a href="#help" data-icon="info">Ayuda</a></li>
-        </ul>
-      </div>
-    </div>
   </div>
   <div data-role="page" data-theme="a" id="help">
     <div data-role="header" data-id="global-header">
@@ -84,15 +82,6 @@
     </div>
     <div data-role="content">
       <p>Aqui ira texto de ayuda...</p>
-    </div>
-    <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-id="global-footer">
-      <div data-role="navbar" data-iconpos="top">
-        <ul>
-          <li><a href="#contacts" data-icon="grid">Contactos</a></li>
-          <li><a href="#backups" data-icon="back">Respaldos</a></li>
-          <li><a href="#help" class="ui-btn-active ui-state-persist" data-icon="info">Ayuda</a></li>
-        </ul>
-      </div>
     </div>
   </div>
 </body>

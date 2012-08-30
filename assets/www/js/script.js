@@ -29,20 +29,21 @@
   };
 
   onContactSuccess = function(contacts) {
-    var $contact, $contactsList, checked, contact, i, number, _i, _j, _len, _len1, _ref;
+    var $contact, $contactsList, checked, contact, i, j, number, phoneNumber, _i, _j, _len, _len1, _ref;
     $contactsList = $();
     if (contacts != null) {
-      for (_i = 0, _len = contacts.length; _i < _len; _i++) {
-        contact = contacts[_i];
+      for (i = _i = 0, _len = contacts.length; _i < _len; i = ++_i) {
+        contact = contacts[i];
         if (contact.name == null) {
           continue;
         }
-        $contact = $("<li>\n  <h3>" + contact.name.formatted + "</h3>\n  <fieldset data-role=\"controlgroup\" data-mini=\"true\"></fieldset>\n</li>");
+        $contact = $("<li>\n  <h3>" + contact.name.formatted + "</h3>\n  <fieldset data-mini=\"true\"></fieldset>\n</li>");
         if (contact.phoneNumbers != null) {
           _ref = contact.phoneNumbers;
-          for (i = _j = 0, _len1 = _ref.length; _j < _len1; i = ++_j) {
-            number = _ref[i];
-            switch (new PhoneNumber(number.value).isUpdatableEcuadorianMobile()) {
+          for (j = _j = 0, _len1 = _ref.length; _j < _len1; j = ++_j) {
+            number = _ref[j];
+            phoneNumber = new PhoneNumber(number.value);
+            switch (phoneNumber.isUpdatableEcuadorianMobile()) {
               case 'yes':
                 checked = 'checked';
                 break;
@@ -52,7 +53,7 @@
               case 'no':
                 continue;
             }
-            $contact.children('fieldset').append("<label>\n  <input type=\"checkbox\" name=\"checkbox[" + contact.id + "][" + i + "]\" " + checked + " data-theme=\"b\">\n  [" + contact.id + "][" + i + "] " + number.type + ": " + number.value + "\n</label>");
+            $contact.children('fieldset').append("<label>\n  <input type=\"checkbox\" name=\"contacts[" + contact.id + "][" + j + "]\" " + checked + " data-theme=\"b\"\n    data-idx=\"" + i + "\" data-old-number=\"" + phoneNumber.value + "\"\n    data-new-number=\"" + (phoneNumber.updateEcuadorianMobile(true)) + "\">\n  [" + contact.id + "][" + j + "] " + number.type + ": " + number.value + "\n</label>");
           }
           if ($contact.find('label').length) {
             $contactsList = $contactsList.add($contact);
@@ -62,10 +63,33 @@
     }
     if ($contactsList.length) {
       $('#valid-contacts').append($contactsList.tsort());
-      return updateCount();
+      $('#contacts .footer').show();
+      updateCount();
     } else {
-      return $('#contacts-content').html('<p>No se cargó ningún contacto.</p>');
+      $('#contacts-content').html('<p>No se cargó ningún contacto.</p>');
+      $('#contacts .footer').hide();
     }
+    return $('#contacts').on('tap', '#update-button', function() {
+      var checkedContacts;
+      checkedContacts = $('#valid-contacts li :checkbox:checked').map(function() {
+        var matches, retObj;
+        matches = $(this).attr('name').match(/\[(\d+)\]\[(\d+)\]/);
+        retObj = {
+          contactId: matches[1],
+          numberIdx: matches[2],
+          oldNumber: $(this).attr('data-old-number'),
+          newNumber: $(this).attr('data-new-number')
+        };
+        contacts[$(this).data('idx')].phoneNumbers[retObj.numberIdx].value = retObj.newNumber;
+        contacts[$(this).data('idx')].save(function() {
+          return console.log("Saved contact " + retObj.contactId + "-" + retObj.numberIdx);
+        }, function(err) {
+          return console.log("ERRCODE: " + (JSON.stringify(err)) + ", error saving contact " + retObj.contactId + "-" + retObj.numberIdx);
+        });
+        return retObj;
+      });
+      return console.log(JSON.stringify(checkedContacts.get()));
+    });
   };
 
   onContactError = function(err) {
@@ -88,11 +112,13 @@
     return $.mobile.pushStateEnabled = false;
   });
 
-  $(document).on('pageinit', function() {
+  $(document).on('pageinit', function() {});
+
+  $(document).on('pagechange', function() {});
+
+  $(function() {
     $('#contacts').on('change', '#valid-contacts li :checkbox', updateCount);
     return $('#contacts').on('change', '#show-filter-fieldset input', updateList);
   });
-
-  $(document).on('pagechange', function() {});
 
 }).call(this);
