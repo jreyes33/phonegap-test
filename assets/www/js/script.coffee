@@ -1,4 +1,6 @@
 $ = jQuery
+appDir = null
+checkedContacts = null
 
 updateCount = ->
   switch $('#show-filter-fieldset :checked').val()
@@ -8,7 +10,6 @@ updateCount = ->
       $('#count-info').text("#{$('#valid-contacts li :checkbox:visible').length}")
     when 'only-unchecked'
       $('#count-info').text("#{$('#valid-contacts li :checkbox:visible').length}")
-
 
 updateList = ->
   $('#valid-contacts li, #valid-contacts li .ui-checkbox').show()
@@ -21,7 +22,34 @@ updateList = ->
   $('#valid-contacts li:not(:has(.ui-checkbox:visible))').hide()
   updateCount()
 
-onContactSuccess = (contacts) ->
+backupFsSuccess = (fileSystem) ->
+  fileSystem.root.getDirectory 'org.jreyes.actualizame', {create: true}, appDirSuccess, appDirError
+
+backupFsError = (err) ->
+  console.log "ERROR getting the filesystem: #{err.code}"
+
+appDirSuccess = (directoryEntry) ->
+  appDir = directoryEntry
+
+appDirError = (err) ->
+  appDir = null
+  console.log "ERROR getting the app directory: #{err.code}"
+
+backupFileSuccess = (fileEntry) ->
+  fileEntry.createWriter (writer) ->
+      writer.onwrite = (e) ->
+      writer.onerror = (e) ->
+
+      writer.truncate 0
+      writer.write checkedContacts.get()
+
+    , (err) ->
+
+
+backupFileError = (err) ->
+  console.log "ERROR creating the backup file: #{err.code}"
+
+contactSuccess = (contacts) ->
   $contactsList = $()
 
   if contacts? then for contact, i in contacts
@@ -78,13 +106,15 @@ onContactSuccess = (contacts) ->
 
       return retObj
 
-    console.log JSON.stringify(checkedContacts.get())
+    if appDir?
+      appDir.getFile "backup-#{Date.now()}.json", {create: true}, backupFileSuccess, backupFileError
 
-onContactError = (err) ->
+contactError = (err) ->
   $('#contacts-content').html("<p>Error al cargar los contactos: #{err.code}</p>")
 
 $(document).on 'deviceready', ->
-  navigator.contacts.find(["*"], onContactSuccess, onContactError)
+  navigator.contacts.find ["*"], contactSuccess, contactError
+  window.requestFileSystem LocalFileSystem.PERSISTENT, 0, backupFsSuccess, backupFsError
 
 
 ###
