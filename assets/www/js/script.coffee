@@ -1,6 +1,7 @@
 $ = jQuery
 appDir = null
 checkedContacts = null
+loadedContacts = null
 
 updateCount = ->
   switch $('#show-filter-fieldset :checked').val()
@@ -22,6 +23,52 @@ updateList = ->
   $('#valid-contacts li:not(:has(.ui-checkbox:visible))').hide()
   updateCount()
 
+restoreBackup = ->
+  if confirm "¿Está seguro que desea revertir los #{$(@).children('.ui-li-count').text()} cambios realizados en la fecha indicada?"
+    for item in $(@).data('backup')
+      loadedContacts[item.contactIdx].phoneNumbers[item.numberIdx].value = item.oldNumber
+      loadedContacts[item.contactIdx].save ->
+          console.log "Saved contact #{retObj.contactId}-#{retObj.numberIdx}"
+        , (err) ->
+          console.log "ERRCODE: #{JSON.stringify err}, error saving contact #{retObj.contactId}-#{retObj.numberIdx}"
+
+readBackupsSuccess = (entries) ->
+  $backupList = $()
+  for entry in entries
+    if entry.isFile and matches = entry.name.match(/^backup\-(\d{13})\.json$/)
+      entry.file (file) ->
+          reader = new FileReader()
+          reader.onload = (e) ->
+            backupData = JSON.parse(e.target.result)
+            date = matches[1]
+            $backup = $("""
+              <li>
+                <a href="#" class="restore-backup">
+                  #{date.getFullYear()}-#{date.getMonth() + 1}-#{date.getDate()} #{date.getHours()}:#{date.getMinutes()}:#{date.getSeconds()}
+                  <span class="ui-li-count">#{backupData.length}</span>
+                </a>
+              </li>
+              """)
+
+            $backup.find('.restore-backup').data('backup', backupData)
+            $backupList.add($backup)
+
+          reader.onerror = (e) ->
+            console.log "ERROR reading backup file: #{err.code}"
+
+          reader.readAsText file
+
+        , (err) ->
+          console.log "ERROR obtaining file object: #{err.code}"
+
+  $('#backup-list').append $backupList
+
+readBackupsError = (err) ->
+
+
+fillBackupList = ->
+  appDir.createReader().readEntries readBackupsSuccess, readBackupsError
+
 backupFsSuccess = (fileSystem) ->
   fileSystem.root.getDirectory 'org.jreyes.actualizame', {create: true}, appDirSuccess, appDirError
 
@@ -30,6 +77,7 @@ backupFsError = (err) ->
 
 appDirSuccess = (directoryEntry) ->
   appDir = directoryEntry
+  fillBackupList()
 
 appDirError = (err) ->
   appDir = null
@@ -44,15 +92,17 @@ backupFileSuccess = (fileEntry) ->
       writer.write checkedContacts.get()
 
     , (err) ->
+        console.log "ERROR writing to backup file: #{err.code}"
 
 
 backupFileError = (err) ->
   console.log "ERROR creating the backup file: #{err.code}"
 
 contactSuccess = (contacts) ->
-  $contactsList = $()
+  loadedContacts = contacts
+  $contactList = $()
 
-  if contacts? then for contact, i in contacts
+  if loadedContacts? then for contact, i in loadedContacts
     continue unless contact.name?
     $contact = $("""
       <li>
@@ -78,10 +128,10 @@ contactSuccess = (contacts) ->
           </label>
           """)
 
-      $contactsList = $contactsList.add($contact) if $contact.find('label').length
+      $contactList = $contactList.add($contact) if $contact.find('label').length
 
-  if $contactsList.length
-    $('#valid-contacts').append($contactsList.tsort())
+  if $contactList.length
+    $('#valid-contacts').append($contactList.tsort())
     $('#contacts .footer').show()
     updateCount()
   else
@@ -93,13 +143,14 @@ contactSuccess = (contacts) ->
       matches = $(@).attr('name').match(/\[(\d+)\]\[(\d+)\]/)
       retObj = {
         contactId: matches[1]
+        contactIdx: $(@).data('idx')
         numberIdx: matches[2]
         # Don't retrieve using .data because it converts to int when it can.
         oldNumber: $(@).attr('data-old-number')
         newNumber: $(@).attr('data-new-number')
       }
-      contacts[$(@).data('idx')].phoneNumbers[retObj.numberIdx].value = retObj.newNumber
-      contacts[$(@).data('idx')].save ->
+      loadedContacts[retObj.contactIdx].phoneNumbers[retObj.numberIdx].value = retObj.newNumber
+      loadedContacts[retObj.contactIdx].save ->
           console.log "Saved contact #{retObj.contactId}-#{retObj.numberIdx}"
         , (err) ->
           console.log "ERRCODE: #{JSON.stringify err}, error saving contact #{retObj.contactId}-#{retObj.numberIdx}"
@@ -142,3 +193,5 @@ $ ->
   $('#contacts').on 'change', '#valid-contacts li :checkbox', updateCount
 
   $('#contacts').on 'change', '#show-filter-fieldset input', updateList
+
+  $('#backups').on 'tap', '.restore-backup', restoreBackup
